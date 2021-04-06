@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+
+import sys
+
+from perlcompat import die, getopts
+
+import icnsim.runner
+
+def usage():
+    die("""\
+usage: {} [-a alpha] [-B cache size] [-C the number of contents] [-T max time] [file...]
+  -a #      exponent parameter of Zipf distribution
+  -B #      cache size at router
+  -C #      the number of contents
+  -T #      max time of simulation
+""".format(sys.argv[0]))
+
+def main():
+    opt = getopts('a:B:C:T:') or usage()
+    alpha = float(opt.a) if opt.a else 0.8
+    cache_size = int(opt.B) if opt.B else 10
+    ncontents = int(opt.C) if opt.C else 100
+    max_time = int(opt.T) if opt.T else 1000
+
+    if not sys.argv[1:2]:
+        usage()
+
+    dot = sys.argv[1]
+
+    runner = icnsim.runner.Runner(alpha=alpha, B=cache_size, C=ncontents, max_time=max_time)
+    runner.import_graph(dot)
+    runner.add_nodes()
+    runner.preprocess()
+    runner.run()
+
+if __name__ == "__main__":
+    main()
