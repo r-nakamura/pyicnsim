@@ -13,7 +13,7 @@ setuptools.setup(
     description='ICN (Information-Centric Networking) SIMulator',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url="https://github.com/r-nakamura/icnsim",
+    url="https://github.com/r-nakamura/pyicnsim",
     packages=setuptools.find_packages(),
     install_requires=['perlcompat', 'graph_tools'],
     scripts=['bin/pyicnsim'],
