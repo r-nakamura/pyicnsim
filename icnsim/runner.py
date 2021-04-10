@@ -50,7 +50,7 @@ class Runner():
         """Prepare node objects based on graph G."""
         for v in self.G.vertices():
             node = icnsim.node.Node(
-                self, id_=v, request_rate=self.lambda_, cache_size=self.B
+                id_=v, request_rate=self.lambda_, cache_size=self.B
             )
             self.nodes[v] = node
 
@@ -87,8 +87,10 @@ class Runner():
                 else:
                     self.path_tbl[s][t] = [s]
 
-        for k, v in self.nodes.items():
-            v.path_tbl = self.path_tbl[k]
+                self.path_tbl[s][t] = [self.nodes[v] for v in self.path_tbl[s][t]]
+
+        for id_, v in self.nodes.items():
+            v.path_tbl = self.path_tbl[id_]
 
     def _preprocess_requester(self):
         """Configure request ratio following Zipf distribution with exponent

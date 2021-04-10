@@ -5,9 +5,8 @@ import icnsim.metrics
 import icnsim.requester
 
 class Node:
-    def __init__(self, runner, id_=None, request_rate=0.1, cache_size=10):
+    def __init__(self, id_=None, request_rate=0.1, cache_size=10):
         self.id_ = id_
-        self.runner = runner
         self.requester = icnsim.requester.Requester(request_rate=request_rate)
         self.cs = icnsim.cs.LRUCache(cache_size=cache_size)
         self.metrics = icnsim.metrics.Metrics()
@@ -32,20 +31,18 @@ class Node:
         """Find node caching content C on PATH and return tupple (NODE,
         INDEX)."""
         for idx, v in enumerate(path):
-            node = self.runner.node_by_id(v)
-            node.metrics.nreceived[c] += 1
-            if node.is_storing(c):
-                node.metrics.nhit[c] += 1
-                return (idx, node.id_)
+            v.metrics.nreceived[c] += 1
+            if v.is_storing(c):
+                v.metrics.nhit[c] += 1
+                return (idx, v)
         return (len(path) - 1, path[-1])
 
     def _update_cache(self, idx, path, c):
         """Update caches from SELF to IDX-th routers on PATH."""
         # caching strategy LCE (Leave Copy Everywhere)
         for v in path[:idx + 1]:
-            node = self.runner.node_by_id(v)
-            if node.id_ != self.origin_tbl[c]: # origin router does not cache original content
-                node.store(c)
+            if v.id_ != self.origin_tbl[c]: # origin router does not cache original content
+                v.store(c)
 
     def store(self, c):
         """Cache content C to own Content Store."""
