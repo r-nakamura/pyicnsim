@@ -42,13 +42,6 @@ digraph export_dot {
         assert runner.nodes[2].id_ == 2
         assert runner.nodes[3].id_ == 3
 
-    def test_node_by_id(self):
-        runner = Runner()
-        runner.G = self._create_graph()
-        runner.add_nodes()
-
-        assert runner.node_by_id(1) == runner.nodes[1]
-
     def test_preprocess_path(self):
         runner = Runner()
         runner.G = self._create_graph()

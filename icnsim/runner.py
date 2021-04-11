@@ -56,10 +56,6 @@ class Runner():
         """Return node objects."""
         return self.nodes.values()
 
-    def node_by_id(self, id_):
-        """Return node object with ID_."""
-        return self.nodes.get(id_, None)
-
     def preprocess(self):
         """Run simulation setup."""
         self._preprocess_content_origin()
