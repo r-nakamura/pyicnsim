@@ -7,7 +7,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='pyicnsim',
-    version='1.0',
+    version='1.1',
     author='Ryo Nakamura',
     author_email='nakamura@zebulun.net',
     description='ICN (Information-Centric Networking) SIMulator',
