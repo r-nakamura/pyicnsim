@@ -20,8 +20,6 @@ class Runner():
         self.G = None # graph of routers
 
         self.nodes = {}
-        self.origin_tbl = {}
-        self.path_tbl = defaultdict(dict)
 
     def import_graph(self, fname, directed=False):
         """Import graph from a file with FNAME written in dot format."""
@@ -70,27 +68,29 @@ class Runner():
 
     def _preprocess_content_origin(self):
         """Randomly determine origin nodes."""
+        origin_tbl = {}
         V = list(self.nodes.values())
         for c in range(1, self.C + 1):
             origin = random.choice(V) # randomly choose origin router
-            self.origin_tbl[c] = origin
+            origin_tbl[c] = origin
 
-        for k, v in self.nodes.items():
-            v.origin_tbl = self.origin_tbl
+        for v in self.nodes.values():
+            v.origin_tbl = origin_tbl
 
     def _preprocess_path(self):
         """Obtain shortest-paths between any node pairs."""
+        path_tbl = defaultdict(dict)
         for s in self.G.vertices():
             for t in self.G.vertices():
                 if s != t:
-                    self.path_tbl[s][t] = self.G.shortest_paths(s, t)[0]
+                    path_tbl[s][t] = self.G.shortest_paths(s, t)[0]
                 else:
-                    self.path_tbl[s][t] = [s]
+                    path_tbl[s][t] = [s]
 
-                self.path_tbl[s][t] = [self.nodes[v] for v in self.path_tbl[s][t]]
+                path_tbl[s][t] = [self.nodes[v] for v in path_tbl[s][t]]
 
         for id_, v in self.nodes.items():
-            v.path_tbl = self.path_tbl[id_]
+            v.path_tbl = path_tbl[id_]
 
     def _preprocess_requester(self):
         """Configure request ratio following Zipf distribution with exponent

@@ -55,14 +55,10 @@ digraph export_dot {
         runner.add_nodes()
         nodes = runner.nodes
 
-        runner.origin_tbl["dummy1"] = 1
-        runner.origin_tbl["dummy2"] = 2
-        runner.origin_tbl["dummy3"] = 3
-
         runner._preprocess_path()
-        assert runner.nodes[1].path_tbl[1] == [nodes[1]]
-        assert runner.nodes[1].path_tbl[2] == [nodes[1], nodes[2]]
-        assert runner.nodes[1].path_tbl[3] == [nodes[1], nodes[3]]
+        assert nodes[1].path_tbl[1] == [nodes[1]]
+        assert nodes[1].path_tbl[2] == [nodes[1], nodes[2]]
+        assert nodes[1].path_tbl[3] == [nodes[1], nodes[3]]
 
     def _create_graph(self):
         g = graph_tools.Graph(directed=True)
