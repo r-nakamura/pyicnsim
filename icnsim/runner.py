@@ -70,7 +70,7 @@ class Runner():
 
     def _preprocess_content_origin(self):
         """Randomly determine origin nodes."""
-        V = self.G.vertices()
+        V = list(self.nodes.values())
         for c in range(1, self.C + 1):
             origin = random.choice(V) # randomly choose origin router
             self.origin_tbl[c] = origin

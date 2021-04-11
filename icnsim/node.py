@@ -41,7 +41,7 @@ class Node:
         """Update caches from SELF to IDX-th routers on PATH."""
         # caching strategy LCE (Leave Copy Everywhere)
         for v in path[:idx + 1]:
-            if v.id_ != self.origin_tbl[c]: # origin router does not cache original content
+            if v.id_ != self.origin_tbl[c].id_: # origin router does not cache original content
                 v.store(c)
 
     def store(self, c):
@@ -55,4 +55,4 @@ class Node:
     def get_path(self, c):
         """Return a path from SELF to origin node storing content C."""
         s = self.origin_tbl[c]
-        return self.path_tbl[s]
+        return self.path_tbl[s.id_]

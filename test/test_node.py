@@ -19,9 +19,9 @@ class TestNode():
         v2 = Node(id_=2)
         v3 = Node(id_=3)
 
-        v1.origin_tbl["dummy1"] = 3; v1.origin_tbl["dummy2"] = 3
-        v2.origin_tbl["dummy1"] = 3; v2.origin_tbl["dummy2"] = 3
-        v3.origin_tbl["dummy1"] = 3; v3.origin_tbl["dummy2"] = 3
+        v1.origin_tbl["dummy1"] = v3; v1.origin_tbl["dummy2"] = v3
+        v2.origin_tbl["dummy1"] = v3; v2.origin_tbl["dummy2"] = v3
+        v3.origin_tbl["dummy1"] = v3; v3.origin_tbl["dummy2"] = v3
 
         v1._update_cache(2, [v1, v2, v3], "dummy1")
         assert v1.is_storing("dummy1") == True
@@ -41,9 +41,11 @@ class TestNode():
         assert v.is_storing("dummy2") == False
 
     def test_get_path(self):
-        v = Node()
+        v1 = Node(id_=1)
+        v2 = Node(id_=2)
+        v3 = Node(id_=3)
 
-        v.origin_tbl[1] = 3
-        v.path_tbl[3] = [1, 2, 3]
+        v1.origin_tbl[1] = v3
+        v1.path_tbl[3] = [v1, v2, v3]
 
-        assert v.get_path(1) == [1, 2, 3]
+        assert v1.get_path(1) == [v1, v2, v3]
