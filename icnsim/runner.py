@@ -20,6 +20,7 @@ class Runner():
         self.G = None # graph of routers
 
         self.nodes = {}
+        self.origin_tbl = {}
 
     def import_graph(self, fname, directed=False):
         """Import graph from a file with FNAME written in dot format."""
@@ -64,14 +65,13 @@ class Runner():
 
     def _preprocess_content_origin(self):
         """Randomly determine origin nodes."""
-        origin_tbl = {}
         V = list(self.nodes.values())
         for c in range(1, self.C + 1):
             origin = random.choice(V) # randomly choose origin router
-            origin_tbl[c] = origin
+            self.origin_tbl[c] = origin
 
         for v in self.nodes.values():
-            v.origin_tbl = origin_tbl
+            v.origin_tbl = self.origin_tbl
 
     def _preprocess_path(self):
         """Obtain shortest-paths between any node pairs."""
