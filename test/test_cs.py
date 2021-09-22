@@ -10,6 +10,10 @@ class TestLRUCache:
         assert cs.size == cache_size
 
     def test_cache(self):
+        cs = LRUCache(cache_size=0)
+        cs.cache(1)
+        assert cs.buf == []
+
         cs = LRUCache(cache_size=3)
         cs.cache(1)
         assert cs.buf == [1]

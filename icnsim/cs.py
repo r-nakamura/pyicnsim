@@ -12,7 +12,8 @@ class LRUCache:
 
         if self.is_full():
             self.evict()
-        self.inject(c)
+        if len(self.buf) < self.size:
+            self.inject(c)
 
     def inject(self, c):
         """Inject newly-arrived content C to buffer."""
@@ -21,7 +22,8 @@ class LRUCache:
 
     def evict(self):
         """Evict least-recently used contents from buffer."""
-        self.buf.pop(0)
+        if self.buf:
+            self.buf.pop(0)
 
     def lookup(self, c):
         """Check if content C exists in buffer and update buffer."""
