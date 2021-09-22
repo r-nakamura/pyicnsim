@@ -6,6 +6,7 @@ class Metrics:
     def __init__(self):
         self.nhit = defaultdict(int)
         self.nreceived = defaultdict(int)
+        self.nhop = defaultdict(list)
 
     def cache_hit_ratio_for_content(self, c):
         """Calculate cache hit ratio for content C, which is defined as the

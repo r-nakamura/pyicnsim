@@ -24,8 +24,9 @@ class Node:
     def request_content(self, c):
         """Issue a request packet for content C."""
         path = self.get_path(c)
-        caching_node = self._find_caching_node(path, c)
-        self._update_cache(caching_node[0], path, c)
+        nhop, _ = self._find_caching_node(path, c) 
+        self.metrics.nhop[c].append(nhop)
+        self._update_cache(nhop, path, c)
 
     def _find_caching_node(self, path, c):
         """Find node caching content C on PATH and return tupple (NODE,
